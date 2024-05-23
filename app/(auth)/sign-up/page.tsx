@@ -23,7 +23,7 @@ export default function SignUp({
     });
 
     if (error) {
-      return redirect("/login?message=Could not authenticate user");
+      return redirect("/sign-in?message=Could not authenticate user");
     }
 
     return redirect("/protected");
@@ -43,7 +43,7 @@ export default function SignUp({
     });
 
     if (error) {
-      return redirect("/login?message=Could not authenticate user");
+      return redirect("/sign-in?message=Could not authenticate user");
     }
 
     return redirect("/protected");
