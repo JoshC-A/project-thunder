@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { SubmitButton } from "./submit-button";
-import { createClient } from "../../utils/supabase/server";
 
-export default function Login({
+import { createClient } from "../../../utils/supabase/server";
+import { SubmitButton } from "../components/submit-button";
+
+export default function SignUp({
   searchParams,
 }: {
   searchParams: { message: string };
@@ -39,16 +40,13 @@ export default function Login({
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: {
-        emailRedirectTo: `${origin}/auth/callback`,
-      },
     });
 
     if (error) {
       return redirect("/login?message=Could not authenticate user");
     }
 
-    return redirect("/login?message=Check email to continue sign in process");
+    return redirect("/protected");
   };
 
   return (
@@ -94,13 +92,6 @@ export default function Login({
           placeholder="••••••••"
           required
         />
-        <SubmitButton
-          formAction={signIn}
-          className="bg-green-700 rounded-md px-4 py-2 text-foreground mb-2"
-          pendingText="Signing In..."
-        >
-          Sign In
-        </SubmitButton>
         <SubmitButton
           formAction={signUp}
           className="border border-foreground/20 rounded-md px-4 py-2 text-foreground mb-2"

@@ -2,7 +2,7 @@ import { redirect } from "next/navigation";
 import Header from "../components/Header";
 import FetchDataSteps from "../components/tutorial/FetchDataSteps";
 import { createClient } from "../../utils/supabase/server";
-import AuthButton from "../components/AuthButton";
+import AuthButton from "../components/LoginButton";
 import DeployButton from "../components/DeployButton";
 
 export default async function ProtectedPage() {
