@@ -3,12 +3,18 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "inngest": "npx inngest-cli@latest dev --no-discovery -u localhost:3000"
   },
   "dependencies": {
+    "@supabase/auth-ui-react": "^0.4.7",
+    "@supabase/auth-ui-shared": "^0.1.8",
+    "@supabase/supabase-js": "^2.43.4",
+    "inngest": "^3.19.4",
     "next": "latest",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "resend": "^3.2.0"
   },
   "devDependencies": {
     "@types/node": "20.8.10",
