@@ -14,17 +14,26 @@ export default function SignUp({
     "use server";
 
     const origin = headers().get("origin");
+    const username = formData.get("username") as string;
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
     const supabase = createClient();
 
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
     });
 
-    if (error) {
-      return redirect("/sign-in?message=Could not authenticate user");
+    const { error: createUserError } = await supabase.from("users").insert({
+      id: data.user.id,
+      name: username,
+      email,
+    });
+
+    console.log(createUserError);
+
+    if (error || createUserError) {
+      return redirect("/sign-up?message=Could not authenticate user");
     }
 
     return redirect("/protected");
@@ -54,6 +63,15 @@ export default function SignUp({
       </Link>
 
       <form className="animate-in flex-1 flex flex-col w-full justify-center gap-2 text-foreground">
+        <label className="text-md" htmlFor="username">
+          Username
+        </label>
+        <input
+          className="rounded-md px-4 py-2 bg-inherit border mb-6"
+          name="username"
+          placeholder="Username"
+          required
+        />
         <label className="text-md" htmlFor="email">
           Email
         </label>
