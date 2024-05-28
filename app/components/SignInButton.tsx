@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "../../utils/supabase/server";
+import Button from "../core/ui/Button";
 
 export default async function SignInButton() {
   const supabase = createClient();
@@ -27,11 +28,12 @@ export default async function SignInButton() {
       </form>
     </div>
   ) : (
-    <Link
+    <Button
       href="/sign-in"
-      className="py-2 px-3 flex rounded-md no-underline bg-btn-background hover:bg-btn-background-hover"
+      className="no-underline bg-btn-background hover:bg-btn-background-hover"
+      variant={"outline"}
     >
       Sign In
-    </Link>
+    </Button>
   );
 }
