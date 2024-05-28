@@ -1,6 +1,5 @@
 import { Resend } from "resend";
 import { inngest } from "../client";
-import { EmailTemplate } from "../../app/components/email-templates/email-template";
 import getSupabaseServerActionClient from "../../app/core/supabase/action-client";
 import { WeatherAndSharesTemplate } from "../../app/components/email-templates/WeatherAndShares";
 
@@ -15,6 +14,7 @@ export const sendEmail = inngest.createFunction(
   { event: "email/send.email" },
 
   async ({ event, step }) => {
+    // Get Weather Data
     const weatherData = await step.run("get weather data from DB", async () => {
       const supabase = createSupabaseClient();
       //   Get most recent data collect for today
@@ -30,12 +30,14 @@ export const sendEmail = inngest.createFunction(
       return data;
     });
 
+    // Get all users emails and names
     const users = await step.run("get users emails", async () => {
       const supabase = createSupabaseClient();
       const { data } = await supabase.from("users").select(`email,name`);
       return data;
     });
 
+    // Send Emails
     const emailsSuccess = await step.run("send email", async () => {
       const emails = await Promise.all(
         users.map(async (user) => {

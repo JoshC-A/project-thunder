@@ -5,11 +5,19 @@ const createSupabaseClient = () =>
   getSupabaseServerActionClient({ admin: true });
 
 const LOCATION = "BS1";
+const COMPANY_NAME = "Rolls Royce";
+const TICKER = "RR.LON";
+
+const TIME_SERIES_DAILY = "Time Series (Daily)";
+const METADATA = "Meta Data";
+const LAST_REFRESHED = "3. Last Refreshed";
+const OPEN = "1. open";
+const CLOSE = "4. close";
 
 export const getWeatherSharesData = inngest.createFunction(
   { id: "getWeatherSharesData" },
-  { event: "data/weather.shares" },
-  // { cron: "0 09 * * 1-5" },
+  // { event: "data/weather.shares" },
+  { cron: "0 09 * * 1-5" },
 
   async ({ event, step }) => {
     const weatherData = await step.run("weather data", async () => {
@@ -40,8 +48,39 @@ export const getWeatherSharesData = inngest.createFunction(
       return data;
     });
 
-    // await step.run("get shares data", async () => {});
+    const shareData = await step.run("get share data", async () => {
+      const res = await fetch(
+        `https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${TICKER}&outputsize=compact&apikey=${process.env.ALPHA_VANTAGE_API_KEY}`
+      );
 
-    return { event, body: weatherData };
+      const shareData = await res.json();
+
+      const lastRefreshed = shareData[METADATA][LAST_REFRESHED]; // When the data was last refreshed.
+      const openPrice = shareData[TIME_SERIES_DAILY][lastRefreshed][OPEN];
+      const closePrice = shareData[TIME_SERIES_DAILY][lastRefreshed][CLOSE];
+
+      const supabase = createSupabaseClient();
+
+      const { data, error } = await supabase
+        .from("stocks")
+        .insert({
+          name: COMPANY_NAME,
+          ticker: TICKER,
+          open: openPrice,
+          close: closePrice,
+          date_from: lastRefreshed,
+        })
+        .select("*");
+
+      if (error) {
+        console.error(error);
+
+        throw new Error("Error saving stock data");
+      }
+
+      return data;
+    });
+
+    return { event, body: { shareData, weatherData } };
   }
 );
