@@ -85,28 +85,31 @@ export type Database = {
       }
       stocks: {
         Row: {
-          close: string | null
+          close: number | null
           created_at: string
+          date_from: string | null
           id: number
           name: string | null
+          open: number | null
           ticker: string | null
-          value: number | null
         }
         Insert: {
-          close?: string | null
+          close?: number | null
           created_at?: string
+          date_from?: string | null
           id?: number
           name?: string | null
+          open?: number | null
           ticker?: string | null
-          value?: number | null
         }
         Update: {
-          close?: string | null
+          close?: number | null
           created_at?: string
+          date_from?: string | null
           id?: number
           name?: string | null
+          open?: number | null
           ticker?: string | null
-          value?: number | null
         }
         Relationships: []
       }

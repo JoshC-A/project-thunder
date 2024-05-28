@@ -42,8 +42,10 @@ export const getWeatherSharesData = inngest.createFunction(
         })
         .select("*");
 
-      console.log(data);
-      console.log(error);
+      if (error) {
+        console.log(error);
+        throw new Error("Error saving weather data");
+      }
 
       return data;
     });

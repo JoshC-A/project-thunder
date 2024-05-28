@@ -25,7 +25,29 @@ export const sendEmail = inngest.createFunction(
         .limit(1)
         .single();
 
-      console.log(error);
+      if (error) {
+        console.error(error);
+        throw new Error("Error retrieving weather from DB");
+      }
+
+      return data;
+    });
+
+    // Get share Data
+    const shareData = await step.run("get share data from DB", async () => {
+      const supabase = createSupabaseClient();
+      //   Get most recent data collect for today
+      const { data, error } = await supabase
+        .from("stocks")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single();
+
+      if (error) {
+        console.error(error);
+        throw new Error("Error retrieving weather from DB");
+      }
 
       return data;
     });
@@ -33,7 +55,11 @@ export const sendEmail = inngest.createFunction(
     // Get all users emails and names
     const users = await step.run("get users emails", async () => {
       const supabase = createSupabaseClient();
-      const { data } = await supabase.from("users").select(`email,name`);
+      const { data } = await supabase
+        .from("users")
+        .select(`email,name`)
+        .eq("active", true);
+
       return data;
     });
 
@@ -49,6 +75,7 @@ export const sendEmail = inngest.createFunction(
               react: WeatherAndSharesTemplate({
                 username: user.name,
                 weather: weatherData,
+                shareData,
               }),
             });
 
