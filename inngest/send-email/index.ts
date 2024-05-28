@@ -2,6 +2,7 @@ import { Resend } from "resend";
 import { inngest } from "../client";
 import { EmailTemplate } from "../../app/components/email-templates/email-template";
 import getSupabaseServerActionClient from "../../app/core/supabase/action-client";
+import { WeatherAndSharesTemplate } from "../../app/components/email-templates/WeatherAndShares";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -10,9 +11,25 @@ const createSupabaseClient = () =>
 
 export const sendEmail = inngest.createFunction(
   { id: "sendEmail" },
+  //   { cron: "30 09 * * 1-5" },
   { event: "email/send.email" },
 
   async ({ event, step }) => {
+    const weatherData = await step.run("get weather data from DB", async () => {
+      const supabase = createSupabaseClient();
+      //   Get most recent data collect for today
+      const { data, error } = await supabase
+        .from("weather")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single();
+
+      console.log(error);
+
+      return data;
+    });
+
     const users = await step.run("get users emails", async () => {
       const supabase = createSupabaseClient();
       const { data } = await supabase.from("users").select(`email,name`);
@@ -27,7 +44,10 @@ export const sendEmail = inngest.createFunction(
               from: "Josh <onboarding@resend.dev>", // Leaving as resend email as need to verify DNS records to be able to send from spydr (will do eventually)
               to: [user.email],
               subject: "Hello world",
-              react: EmailTemplate({ firstName: user.name }),
+              react: WeatherAndSharesTemplate({
+                username: user.name,
+                weather: weatherData,
+              }),
             });
 
             if (error) {
@@ -49,6 +69,6 @@ export const sendEmail = inngest.createFunction(
     });
 
     return { event, body: emailsSuccess };
-    // return { event, body: userEmails };
+    // return { event, body: weatherData };
   }
 );

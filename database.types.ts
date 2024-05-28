@@ -147,7 +147,7 @@ export type Database = {
           icon: string | null
           id: number
           location: string | null
-          temprature: number | null
+          temperature: number | null
           uv_index: number | null
           wind_mph: number | null
         }
@@ -158,7 +158,7 @@ export type Database = {
           icon?: string | null
           id?: number
           location?: string | null
-          temprature?: number | null
+          temperature?: number | null
           uv_index?: number | null
           wind_mph?: number | null
         }
@@ -169,7 +169,7 @@ export type Database = {
           icon?: string | null
           id?: number
           location?: string | null
-          temprature?: number | null
+          temperature?: number | null
           uv_index?: number | null
           wind_mph?: number | null
         }
