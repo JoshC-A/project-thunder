@@ -2,7 +2,6 @@ import { redirect } from "next/navigation";
 import Header from "../components/Header";
 import { createClient } from "../../utils/supabase/server";
 import SignInButton from "../components/SignInButton";
-import DeployButton from "../components/DeployButton";
 
 export default async function ProtectedPage() {
   const supabase = createClient();
@@ -19,8 +18,7 @@ export default async function ProtectedPage() {
     <div className="flex-1 w-full flex flex-col gap-20 items-center">
       <div className="w-full">
         <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-          <div className="w-full max-w-4xl flex justify-between items-center p-3 text-sm">
-            <DeployButton />
+          <div className="w-full max-w-4xl flex justify-end items-center p-3 text-sm">
             <SignInButton />
           </div>
         </nav>

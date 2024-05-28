@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { inngest } from "../../../inngest/client"; // Import our client
+import { inngest } from "../../../../inngest/client"; // Import our client
 
 // Opt out of caching; every request should send a new event
 export const dynamic = "force-dynamic";
