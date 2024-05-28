@@ -13,34 +13,42 @@ export const sendEmail = inngest.createFunction(
   { event: "email/send.email" },
 
   async ({ event, step }) => {
-    const userEmails = await step.run("get users emails", async () => {
+    const users = await step.run("get users emails", async () => {
       const supabase = createSupabaseClient();
-      return supabase.from("users").select("email");
+      const { data } = await supabase.from("users").select(`email,name`);
+      return data;
     });
 
-    return { body: userEmails };
+    const emailsSuccess = await step.run("send email", async () => {
+      const emails = await Promise.all(
+        users.map(async (user) => {
+          try {
+            const { data, error } = await resend.emails.send({
+              from: "Josh <onboarding@resend.dev>", // Leaving as resend email as need to verify DNS records to be able to send from spydr (will do eventually)
+              to: [user.email],
+              subject: "Hello world",
+              react: EmailTemplate({ firstName: user.name }),
+            });
 
-    // const sendEmailResponse = await step.run("send email", async () => {
-    //   try {
-    //     const { data, error } = await resend.emails.send({
-    //       from: "Josh <onboarding@resend.dev>", // Leaving as resend email as need to verify DNS records to be able to send from spydr (will do eventually)
-    //       to: ["josh@spydr.com"],
-    //       subject: "Hello world",
-    //       react: EmailTemplate({ firstName: "Josh" }),
-    //     });
+            if (error) {
+              console.error(error);
 
-    //     if (error) {
-    //       console.error(error);
+              throw new Error("Error while sending email");
+            }
 
-    //       throw new Error("Error while sending email");
-    //     }
+            return user.email;
+          } catch (error) {
+            console.error(error);
+            throw new Error("Error while attempting to send email");
+          }
+        })
+      );
+      console.log(emails);
 
-    //     return { event, body: "Email successfully sent" };
-    //   } catch (error) {
-    //     console.error(error);
-    //     throw new Error("Error while attempting to send email");
-    //   }
-    // });
-    // return sendEmailResponse;
+      return emails;
+    });
+
+    return { event, body: emailsSuccess };
+    // return { event, body: userEmails };
   }
 );
