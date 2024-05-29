@@ -1,7 +1,7 @@
 import { Resend } from "resend";
 import { inngest } from "../client";
 import getSupabaseServerActionClient from "../../app/core/supabase/action-client";
-import { WeatherAndSharesTemplate } from "../../app/components/email-templates/WeatherAndShares";
+import WeatherAndShares from "../../react-email-starter/emails/weather-and-shares";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -65,6 +65,12 @@ export const sendEmail = inngest.createFunction(
 
     // Send Emails
     const emailsSuccess = await step.run("send email", async () => {
+      const percentDiff =
+        100 *
+        Math.abs(
+          (shareData.open - shareData.close) /
+            ((shareData.open + shareData.close) / 2)
+        );
       const emails = await Promise.all(
         users.map(async (user) => {
           try {
@@ -72,10 +78,11 @@ export const sendEmail = inngest.createFunction(
               from: "Josh <onboarding@resend.dev>", // Leaving as resend email as need to verify DNS records to be able to send from spydr (will do eventually)
               to: [user.email],
               subject: "Hello world",
-              react: WeatherAndSharesTemplate({
+              react: WeatherAndShares({
                 username: user.name,
                 weather: weatherData,
                 shareData,
+                percentDiff,
               }),
             });
 

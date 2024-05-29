@@ -1,13 +1,11 @@
 import {
   Body,
-  Button,
   Container,
   Head,
   Heading,
   Hr,
   Html,
   Img,
-  Link,
   Preview,
   Section,
   Tailwind,
@@ -21,6 +19,7 @@ interface WeatherAndSharesProps {
   weather: Weather;
   shareData: Share;
   percentDiff: number;
+  username: string;
 }
 
 const weather: Weather = {
@@ -52,6 +51,11 @@ const percentDiff =
       ((shareData.open + shareData.close) / 2)
   );
 
+const username = "Josh";
+
+const RRLogo =
+  "https://seeklogo.com/images/R/rolls-royce-logo-24811DB90B-seeklogo.com.png";
+
 const baseUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "";
@@ -60,6 +64,7 @@ export const WeatherAndShares = ({
   weather,
   shareData,
   percentDiff,
+  username,
 }: WeatherAndSharesProps) => (
   <Html>
     <Head />
@@ -68,12 +73,8 @@ export const WeatherAndShares = ({
       <Body style={main}>
         <Container style={container}>
           <Section>
-            <Heading style={row}>
-              <Img
-                src={`${baseUrl}/static/rolls-royce-logo.png`}
-                alt="Rolls Royce Logo"
-                width="45"
-              />
+            <div style={row}>
+              <Img src={RRLogo} alt="Rolls Royce Logo" width="45" />
               <Text
                 //   Could be worth messing with width here as vertical rule is weird
                 className={`text-[52px] pt-5 ${
@@ -96,10 +97,12 @@ export const WeatherAndShares = ({
                   <Text>{weather.condition}</Text>
                 </div>
               </div>
-            </Heading>
+            </div>
           </Section>
           <Section style={box}>
             <Hr className="mb-[50px]" style={hr} />
+            <Text>Good morning {username},</Text>
+            <Text>Welcome to todays overview of finances and weather!</Text>
             <div className="flex flex-row w-[400px]">
               <div className="flex flex-col">
                 <Text className="text-center pr-5">
@@ -141,7 +144,8 @@ export const WeatherAndShares = ({
           <Section style={box}>
             <Hr style={hr} />
             <Text style={footer}>
-              Stripe, 354 Oyster Point Blvd, South San Francisco, CA 94080
+              Finance Barometer, 123 Address line one, Address line two,
+              Postcode
             </Text>
           </Section>
         </Container>
@@ -154,6 +158,7 @@ WeatherAndShares.PreviewProps = {
   weather,
   shareData,
   percentDiff,
+  username,
 } as WeatherAndSharesProps;
 
 export default WeatherAndShares;
@@ -173,7 +178,6 @@ const container = {
 
 const vertical = {
   borderLeft: "1px solid #c9c9c9",
-  height: "80px",
 };
 
 const box = {
