@@ -57,7 +57,7 @@ export const sendEmail = inngest.createFunction(
       const supabase = createSupabaseClient();
       const { data } = await supabase
         .from("users")
-        .select(`email,name`)
+        .select(`id,email,name`)
         .eq("active", true);
 
       return data;
@@ -71,19 +71,33 @@ export const sendEmail = inngest.createFunction(
           (shareData.open - shareData.close) /
             ((shareData.open + shareData.close) / 2)
         );
+
+      const supabase = createSupabaseClient();
+
+      const emailSubject = `${percentDiff.toPrecision(2)}% ${
+        shareData.open < shareData.close ? "up" : "down"
+      } & ${weatherData.condition}`;
+
       const emails = await Promise.all(
         users.map(async (user) => {
           try {
             const { data, error } = await resend.emails.send({
               from: "Josh <onboarding@resend.dev>", // Leaving as resend email as need to verify DNS records to be able to send from spydr (will do eventually)
               to: [user.email],
-              subject: "Hello world",
+              subject: emailSubject,
               react: WeatherAndShares({
                 username: user.name,
                 weather: weatherData,
                 shareData,
                 percentDiff,
               }),
+            });
+
+            await supabase.from("emails").insert({
+              user: user.id,
+              weather: weatherData.id,
+              stocks: shareData.id,
+              subject: emailSubject,
             });
 
             if (error) {
@@ -99,7 +113,6 @@ export const sendEmail = inngest.createFunction(
           }
         })
       );
-      console.log(emails);
 
       return emails;
     });

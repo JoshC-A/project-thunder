@@ -2,7 +2,6 @@ import {
   Body,
   Container,
   Head,
-  Heading,
   Hr,
   Html,
   Img,
@@ -60,6 +59,8 @@ const baseUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
   : "";
 
+const today = new Date();
+
 export const WeatherAndShares = ({
   weather,
   shareData,
@@ -68,7 +69,7 @@ export const WeatherAndShares = ({
 }: WeatherAndSharesProps) => (
   <Html>
     <Head />
-    <Preview>Preview</Preview>
+    <Preview>{today.toLocaleDateString("en-US")} - Todays forecast</Preview>
     <Tailwind>
       <Body style={main}>
         <Container style={container}>

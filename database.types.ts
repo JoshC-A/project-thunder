@@ -40,6 +40,7 @@ export type Database = {
           id: number
           sent_at: string | null
           stocks: number | null
+          subject: string | null
           user: string | null
           weather: number | null
         }
@@ -48,6 +49,7 @@ export type Database = {
           id?: number
           sent_at?: string | null
           stocks?: number | null
+          subject?: string | null
           user?: string | null
           weather?: number | null
         }
@@ -56,6 +58,7 @@ export type Database = {
           id?: number
           sent_at?: string | null
           stocks?: number | null
+          subject?: string | null
           user?: string | null
           weather?: number | null
         }
@@ -115,18 +118,21 @@ export type Database = {
       }
       users: {
         Row: {
+          active: boolean | null
           created_at: string
           email: string | null
           id: string
           name: string | null
         }
         Insert: {
+          active?: boolean | null
           created_at?: string
           email?: string | null
           id: string
           name?: string | null
         }
         Update: {
+          active?: boolean | null
           created_at?: string
           email?: string | null
           id?: string

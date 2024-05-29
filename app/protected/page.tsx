@@ -2,6 +2,9 @@ import { redirect } from "next/navigation";
 import Header from "../components/Header";
 import { createClient } from "../../utils/supabase/server";
 import SignInButton from "../components/SignInButton";
+import EmailTable from "./components/EmailTable";
+import getSupabaseServerComponentClient from "../core/supabase/server-component-client";
+import { getEmailsByUserId } from "./queries";
 
 export default async function ProtectedPage() {
   const supabase = createClient();
@@ -14,8 +17,12 @@ export default async function ProtectedPage() {
     return redirect("/sign-in");
   }
 
+  const client = getSupabaseServerComponentClient();
+
+  const emails = await getEmailsByUserId(client, user.id);
+
   return (
-    <div className="flex-1 w-full flex flex-col gap-20 items-center">
+    <div className="flex-1 w-full flex flex-col gap-20">
       <div className="w-full">
         <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
           <div className="w-full max-w-4xl flex justify-end items-center p-3 text-sm">
@@ -24,10 +31,11 @@ export default async function ProtectedPage() {
         </nav>
       </div>
 
-      <div className="animate-in flex-1 flex flex-col gap-20 items-center opacity-0 max-w-4xl px-3">
-        <Header />
-        <main className="flex-1 flex flex-col gap-6">
-          <h2 className="font-bold text-4xl mb-4">Next steps</h2>
+      <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl px-3">
+        <p className="text-5xl font-light">Your Emails</p>
+
+        <main>
+          <EmailTable emails={emails} />
         </main>
       </div>
 
