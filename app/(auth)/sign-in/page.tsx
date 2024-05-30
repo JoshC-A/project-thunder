@@ -22,7 +22,9 @@ export default function SignIn({
     });
 
     if (error) {
-      return redirect("/login?message=Could not authenticate user");
+      console.error(error);
+
+      return redirect("/sign-in?message=Could not authenticate user");
     }
 
     return redirect("/protected");
