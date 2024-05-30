@@ -23,25 +23,13 @@ export default async function ProtectedPage() {
 
   return (
     <div className="flex-1 w-full flex flex-col gap-20">
-      <div className="w-full">
-        <nav className="w-full flex justify-center border-b border-b-foreground/10 h-16">
-          <div className="w-full max-w-4xl flex justify-end items-center p-3 text-sm">
-            <SignInButton />
-          </div>
-        </nav>
-      </div>
-
-      <div className="animate-in flex-1 flex flex-col gap-20 opacity-0 max-w-4xl px-3">
+      <div className="animate-in flex-1 flex flex-col mt-20 gap-20 opacity-0 max-w-4xl px-3">
         <p className="text-5xl font-light">Your Emails</p>
 
         <main>
           <EmailTable emails={emails} />
         </main>
       </div>
-
-      <footer className="w-full border-t border-t-foreground/10 p-8 flex justify-center text-center text-xs">
-        <p>Footer</p>
-      </footer>
     </div>
   );
 }

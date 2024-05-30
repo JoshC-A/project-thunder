@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {
   Table,
   TableBody,
@@ -10,8 +11,6 @@ import {
 import { Email } from "../../types/email.type";
 
 const EmailTable: React.FCC<{ emails: Email[] }> = ({ emails }) => {
-  console.log(emails);
-
   return (
     <Table className="w-full">
       <TableCaption>Your recent emails</TableCaption>
@@ -26,10 +25,14 @@ const EmailTable: React.FCC<{ emails: Email[] }> = ({ emails }) => {
           return (
             <TableRow key={email.id} className="w-full">
               <TableCell className="font-medium w-full">
-                {email.subject}
+                <Link href={`/protected/email/${email.id}`}>
+                  {email.subject}
+                </Link>
               </TableCell>
               <TableCell className="text-right">
-                {new Date(email.sent_at).toLocaleDateString("en-US")}
+                <Link href={`/protected/email/${email.id}`}>
+                  {new Date(email.sent_at).toLocaleDateString("en-US")}
+                </Link>
               </TableCell>
             </TableRow>
           );

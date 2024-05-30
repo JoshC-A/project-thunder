@@ -16,8 +16,8 @@ const CLOSE = "4. close";
 
 export const getWeatherSharesData = inngest.createFunction(
   { id: "getWeatherSharesData" },
-  // { event: "data/weather.shares" },
-  { cron: "0 09 * * 1-5" },
+  { event: "data/weather.shares" },
+  // { cron: "0 09 * * 1-5" },
 
   async ({ event, step }) => {
     const weatherData = await step.run("weather data", async () => {

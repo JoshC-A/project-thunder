@@ -68,7 +68,6 @@ export const WeatherAndShares = ({
   username,
 }: WeatherAndSharesProps) => (
   <Html>
-    <Head />
     <Preview>{today.toLocaleDateString("en-US")} - Todays forecast</Preview>
     <Tailwind>
       <Body style={main}>
