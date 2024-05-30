@@ -4,11 +4,6 @@ const BASE_URL =
   process.env.NODE_ENV == "production" ? "" : "http://localhost:3000";
 
 describe("user can login", () => {
-  afterEach(() => {
-    const supabase = createClient();
-    supabase.auth.signOut();
-  });
-
   /* ==== Test Created with Cypress Studio ==== */
   it("logs user in", function () {
     /* ==== Generated with Cypress Studio ==== */

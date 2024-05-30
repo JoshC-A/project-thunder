@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import Header from "./components/Header";
 import LetterSignUp from "./components/LetterSignUp";
 import SignInButton from "./components/SignInButton";
@@ -19,8 +20,9 @@ export default async function Index() {
           <h2 className="font-thin text-4xl mb-4 opacity-65">
             Sign up for our free newsletter
           </h2>
-          {/* Component that allows user to input their email address */}
-          <LetterSignUp />
+          <Suspense>
+            <LetterSignUp />
+          </Suspense>
         </main>
       </div>
 

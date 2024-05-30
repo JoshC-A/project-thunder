@@ -1,8 +1,8 @@
 "use client";
 
 import { usePathname, useSearchParams } from "next/navigation";
-import Button from "../core/ui/Button";
-import { TextFieldInput } from "../core/ui/TextField";
+import { Button } from "../../@/components/ui/button";
+import { TextFieldInput } from "../../@/components/ui/TextField";
 import { useRouter } from "next/navigation";
 import { FormEventHandler } from "react";
 
@@ -43,7 +43,10 @@ const LetterSignUp = () => {
           className="max-w-xs mb-5"
           placeholder="example@mail.com"
         />
-        <Button type="submit" className="text-white" variant={"black"}>
+        <Button
+          type="submit"
+          className="py-2 px-4 bg-black text-white hover:bg-black/75"
+        >
           Sign Up
         </Button>
       </div>

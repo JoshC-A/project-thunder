@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "../../utils/supabase/server";
-import Button from "../core/ui/Button";
+import { Button } from "../../@/components/ui/button";
 
 export default async function SignInButton() {
   const supabase = createClient();
@@ -22,18 +22,14 @@ export default async function SignInButton() {
     <div className="flex items-center gap-4">
       <Link href={"/protected"}>Hey, {user.email}!</Link>
       <form action={signOut}>
-        <button className="py-2 px-4 rounded-md no-underline bg-btn-background hover:bg-btn-background-hover">
+        <Button variant={"outline"} className="py-2 px-4">
           Logout
-        </button>
+        </Button>
       </form>
     </div>
   ) : (
-    <Button
-      href="/sign-in"
-      className="no-underline bg-btn-background hover:bg-btn-background-hover"
-      variant={"outline"}
-    >
-      Sign In
+    <Button className="py-2 px-4" variant={"outline"}>
+      <a href="/sign-in">Sign In</a>
     </Button>
   );
 }

@@ -7,16 +7,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../../core/ui/Table";
+} from "../../../@/components/ui/Table";
 import { Email } from "../../types/email.type";
 
 const EmailTable: React.FCC<{ emails: Email[] }> = ({ emails }) => {
   return (
     <Table className="w-full">
-      <TableCaption>Your recent emails</TableCaption>
       <TableHeader className="w-full">
         <TableRow className="w-full">
-          <TableHead className="w-[100px]">Title</TableHead>
+          <TableHead className="w-[100px] text-left">Title</TableHead>
           <TableHead className="text-right">Date</TableHead>
         </TableRow>
       </TableHeader>
@@ -38,6 +37,7 @@ const EmailTable: React.FCC<{ emails: Email[] }> = ({ emails }) => {
           );
         })}
       </TableBody>
+      {/* <TableCaption>Your recent emails</TableCaption> */}
     </Table>
   );
 };

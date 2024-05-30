@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { createClient } from "../../utils/supabase/server";
-import Button from "../core/ui/Button";
+import { Button } from "../../@/components/ui/button";
 
 export default async function SignUpButton() {
   const supabase = createClient();
@@ -10,14 +10,10 @@ export default async function SignUpButton() {
   } = await supabase.auth.getUser();
 
   return !user ? (
-    <Button
-      href={{
-        pathname: "/sign-up",
-      }}
-      className="text-white"
-      variant={"black"}
-    >
-      Sign Up
+    <Button className="py-2 px-4 bg-black text-primary-foreground hover:bg-black/75">
+      <a className="text-white" href="/sign-up">
+        Sign Up
+      </a>
     </Button>
   ) : (
     ""
