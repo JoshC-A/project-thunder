@@ -6,7 +6,7 @@ describe("user can view their history of emails", () => {
     cy.get(".border > a").click();
     cy.get('[placeholder="you@example.com"]').type("josh@spydr.com");
     cy.get('[type="password"]').type("securepassword");
-    cy.get(".bg-green-700").click();
+    cy.get("[type=submit]").click();
     /* ==== Generated with Cypress Studio ==== */
     cy.get(":nth-child(1) > .font-medium > a").click();
     cy.contains("Good morning");

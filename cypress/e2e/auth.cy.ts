@@ -8,7 +8,7 @@ describe("user can login", () => {
     cy.get(".border > a").click();
     cy.get('[placeholder="you@example.com"]').type("josh@spydr.com");
     cy.get('[type="password"]').type("securepassword");
-    cy.get(".bg-green-700").click();
+    cy.get("[type=submit]").click();
     /* ==== End Cypress Studio ==== */
   });
 });
@@ -21,7 +21,7 @@ describe("user can logout", () => {
     cy.get(".border > a").click();
     cy.get('[placeholder="you@example.com"]').type("josh@spydr.com");
     cy.get('[type="password"]').type("securepassword");
-    cy.get(".bg-green-700").click();
+    cy.get("[type=submit]").click();
     cy.get(".inline-flex").click();
     /* ==== End Cypress Studio ==== */
   });

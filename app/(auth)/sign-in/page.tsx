@@ -28,26 +28,6 @@ export default function SignIn({
     return redirect("/protected");
   };
 
-  const signUp = async (formData: FormData) => {
-    "use server";
-
-    const origin = headers().get("origin");
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-    const supabase = createClient();
-
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-
-    if (error) {
-      return redirect("/login?message=Could not authenticate user");
-    }
-
-    return redirect("/protected");
-  };
-
   return (
     <div className="flex-1 flex flex-col w-full px-8 sm:max-w-md justify-center gap-2">
       <Link
@@ -93,8 +73,9 @@ export default function SignIn({
         />
         <SubmitButton
           formAction={signIn}
-          className="bg-green-700 rounded-md px-4 py-2 text-foreground mb-2"
+          className="text-white rounded-md text-foreground mb-2 py-2 px-4 bg-black text-primary-foreground hover:bg-black/75"
           pendingText="Signing In..."
+          type="submit"
         >
           Sign In
         </SubmitButton>
