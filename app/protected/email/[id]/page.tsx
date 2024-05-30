@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { createClient } from "../../../../utils/supabase/server";
 import Button from "../../../core/ui/Button";
 import EmailTemplateCopy from "../../components/EmailTemplateCopy";
@@ -22,6 +22,10 @@ const EmailPage = async ({ params }: Context) => {
   }
 
   const emailData = await getAllEmailDataById(supabase, params.id);
+
+  if (!emailData) {
+    return notFound();
+  }
 
   const {
     weather,
