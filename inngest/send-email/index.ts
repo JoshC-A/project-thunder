@@ -10,7 +10,7 @@ const createSupabaseClient = () =>
 
 export const sendEmail = inngest.createFunction(
   { id: "sendEmail" },
-  { cron: "TZ=America/New_York 30 09 * * 1-5" },
+  { cron: "TZ=Europe/London 30 09 * * 1-5" },
   // { event: "email/send.email" },
 
   async ({ event, step }) => {
